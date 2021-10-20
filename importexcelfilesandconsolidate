@@ -1,0 +1,21 @@
+import glob
+import os   
+import pandas as pd
+
+directory = '/Users/Iain/PycharmProjects/Reconciliation'
+
+all_files = glob.glob(os.path.join(directory, "*in_store*.csv"))
+
+emptyDF = pd.DataFrame()
+consolidated = pd.DataFrame()
+
+for filename in all_files:
+    dataframe = pd.read_csv(filename, index_col=None, header=0, sep=",")
+    if dataframe.empty:
+        continue
+    print(dataframe)
+    consolidated = emptyDF.append(dataframe)
+    emptyDF = consolidated
+
+print(consolidated)
+consolidated.to_csv('consolidated.csv')
